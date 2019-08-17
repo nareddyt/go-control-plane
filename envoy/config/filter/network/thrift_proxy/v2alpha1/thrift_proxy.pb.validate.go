@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on ThriftProxy with the rules defined in
@@ -62,17 +62,12 @@ func (m *ThriftProxy) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetRouteConfig()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return ThriftProxyValidationError{
-					field:  "RouteConfig",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetRouteConfig()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ThriftProxyValidationError{
+				field:  "RouteConfig",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -80,17 +75,12 @@ func (m *ThriftProxy) Validate() error {
 	for idx, item := range m.GetThriftFilters() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ThriftProxyValidationError{
-						field:  fmt.Sprintf("ThriftFilters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ThriftProxyValidationError{
+					field:  fmt.Sprintf("ThriftFilters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -173,34 +163,24 @@ func (m *ThriftFilter) Validate() error {
 
 	case *ThriftFilter_Config:
 
-		{
-			tmp := m.GetConfig()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ThriftFilterValidationError{
-						field:  "Config",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ThriftFilterValidationError{
+					field:  "Config",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
 
 	case *ThriftFilter_TypedConfig:
 
-		{
-			tmp := m.GetTypedConfig()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ThriftFilterValidationError{
-						field:  "TypedConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetTypedConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ThriftFilterValidationError{
+					field:  "TypedConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}

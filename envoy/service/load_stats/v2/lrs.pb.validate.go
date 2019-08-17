@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on LoadStatsRequest with the rules defined
@@ -41,17 +41,12 @@ func (m *LoadStatsRequest) Validate() error {
 		return nil
 	}
 
-	{
-		tmp := m.GetNode()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return LoadStatsRequestValidationError{
-					field:  "Node",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetNode()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LoadStatsRequestValidationError{
+				field:  "Node",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -59,17 +54,12 @@ func (m *LoadStatsRequest) Validate() error {
 	for idx, item := range m.GetClusterStats() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return LoadStatsRequestValidationError{
-						field:  fmt.Sprintf("ClusterStats[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return LoadStatsRequestValidationError{
+					field:  fmt.Sprintf("ClusterStats[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -148,17 +138,12 @@ func (m *LoadStatsResponse) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetLoadReportingInterval()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return LoadStatsResponseValidationError{
-					field:  "LoadReportingInterval",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetLoadReportingInterval()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return LoadStatsResponseValidationError{
+				field:  "LoadReportingInterval",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}

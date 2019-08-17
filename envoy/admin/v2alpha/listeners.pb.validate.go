@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on Listeners with the rules defined in the
@@ -43,17 +43,12 @@ func (m *Listeners) Validate() error {
 	for idx, item := range m.GetListenerStatuses() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ListenersValidationError{
-						field:  fmt.Sprintf("ListenerStatuses[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListenersValidationError{
+					field:  fmt.Sprintf("ListenerStatuses[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -127,17 +122,12 @@ func (m *ListenerStatus) Validate() error {
 
 	// no validation rules for Name
 
-	{
-		tmp := m.GetLocalAddress()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return ListenerStatusValidationError{
-					field:  "LocalAddress",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetLocalAddress()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListenerStatusValidationError{
+				field:  "LocalAddress",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}

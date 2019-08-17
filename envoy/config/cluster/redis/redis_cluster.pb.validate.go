@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on RedisClusterConfig with the rules
@@ -42,7 +42,14 @@ func (m *RedisClusterConfig) Validate() error {
 	}
 
 	if d := m.GetClusterRefreshRate(); d != nil {
-		dur := *d
+		dur, err := ptypes.Duration(d)
+		if err != nil {
+			return RedisClusterConfigValidationError{
+				field:  "ClusterRefreshRate",
+				reason: "value is not a valid duration",
+				cause:  err,
+			}
+		}
 
 		gt := time.Duration(0*time.Second + 0*time.Nanosecond)
 
@@ -56,7 +63,14 @@ func (m *RedisClusterConfig) Validate() error {
 	}
 
 	if d := m.GetClusterRefreshTimeout(); d != nil {
-		dur := *d
+		dur, err := ptypes.Duration(d)
+		if err != nil {
+			return RedisClusterConfigValidationError{
+				field:  "ClusterRefreshTimeout",
+				reason: "value is not a valid duration",
+				cause:  err,
+			}
+		}
 
 		gt := time.Duration(0*time.Second + 0*time.Nanosecond)
 

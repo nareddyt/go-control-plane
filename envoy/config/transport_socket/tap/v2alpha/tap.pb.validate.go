@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on Tap with the rules defined in the proto
@@ -47,17 +47,12 @@ func (m *Tap) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetCommonConfig()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return TapValidationError{
-					field:  "CommonConfig",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetCommonConfig()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TapValidationError{
+				field:  "CommonConfig",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -69,17 +64,12 @@ func (m *Tap) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetTransportSocket()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return TapValidationError{
-					field:  "TransportSocket",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetTransportSocket()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TapValidationError{
+				field:  "TransportSocket",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}

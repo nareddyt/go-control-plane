@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on DubboProxy with the rules defined in the
@@ -64,17 +64,12 @@ func (m *DubboProxy) Validate() error {
 	for idx, item := range m.GetRouteConfig() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return DubboProxyValidationError{
-						field:  fmt.Sprintf("RouteConfig[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DubboProxyValidationError{
+					field:  fmt.Sprintf("RouteConfig[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -84,17 +79,12 @@ func (m *DubboProxy) Validate() error {
 	for idx, item := range m.GetDubboFilters() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return DubboProxyValidationError{
-						field:  fmt.Sprintf("DubboFilters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DubboProxyValidationError{
+					field:  fmt.Sprintf("DubboFilters[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -173,17 +163,12 @@ func (m *DubboFilter) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetConfig()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return DubboFilterValidationError{
-					field:  "Config",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetConfig()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DubboFilterValidationError{
+				field:  "Config",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}

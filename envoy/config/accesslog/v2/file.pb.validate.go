@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on FileAccessLog with the rules defined in
@@ -55,17 +55,12 @@ func (m *FileAccessLog) Validate() error {
 
 	case *FileAccessLog_JsonFormat:
 
-		{
-			tmp := m.GetJsonFormat()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return FileAccessLogValidationError{
-						field:  "JsonFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetJsonFormat()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FileAccessLogValidationError{
+					field:  "JsonFormat",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}

@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on ResourceMonitor with the rules defined
@@ -52,34 +52,24 @@ func (m *ResourceMonitor) Validate() error {
 
 	case *ResourceMonitor_Config:
 
-		{
-			tmp := m.GetConfig()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ResourceMonitorValidationError{
-						field:  "Config",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ResourceMonitorValidationError{
+					field:  "Config",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
 
 	case *ResourceMonitor_TypedConfig:
 
-		{
-			tmp := m.GetTypedConfig()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ResourceMonitorValidationError{
-						field:  "TypedConfig",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetTypedConfig()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ResourceMonitorValidationError{
+					field:  "TypedConfig",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -233,17 +223,12 @@ func (m *Trigger) Validate() error {
 
 	case *Trigger_Threshold:
 
-		{
-			tmp := m.GetThreshold()
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return TriggerValidationError{
-						field:  "Threshold",
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(m.GetThreshold()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TriggerValidationError{
+					field:  "Threshold",
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -338,17 +323,12 @@ func (m *OverloadAction) Validate() error {
 	for idx, item := range m.GetTriggers() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return OverloadActionValidationError{
-						field:  fmt.Sprintf("Triggers[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return OverloadActionValidationError{
+					field:  fmt.Sprintf("Triggers[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -420,17 +400,12 @@ func (m *OverloadManager) Validate() error {
 		return nil
 	}
 
-	{
-		tmp := m.GetRefreshInterval()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return OverloadManagerValidationError{
-					field:  "RefreshInterval",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetRefreshInterval()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return OverloadManagerValidationError{
+				field:  "RefreshInterval",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -445,17 +420,12 @@ func (m *OverloadManager) Validate() error {
 	for idx, item := range m.GetResourceMonitors() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return OverloadManagerValidationError{
-						field:  fmt.Sprintf("ResourceMonitors[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return OverloadManagerValidationError{
+					field:  fmt.Sprintf("ResourceMonitors[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -465,17 +435,12 @@ func (m *OverloadManager) Validate() error {
 	for idx, item := range m.GetActions() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return OverloadManagerValidationError{
-						field:  fmt.Sprintf("Actions[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return OverloadManagerValidationError{
+					field:  fmt.Sprintf("Actions[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}

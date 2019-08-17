@@ -21,8 +21,8 @@ import (
 	"strconv"
 	"sync/atomic"
 
-	"github.com/gogo/protobuf/proto"
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/ptypes/any"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -129,13 +129,13 @@ func createResponse(resp *cache.Response, typeURL string) (*v2.DiscoveryResponse
 	if resp == nil {
 		return nil, errors.New("missing response")
 	}
-	resources := make([]*types.Any, len(resp.Resources))
+	resources := make([]*any.Any, len(resp.Resources))
 	for i := 0; i < len(resp.Resources); i++ {
 		data, err := proto.Marshal(resp.Resources[i])
 		if err != nil {
 			return nil, err
 		}
-		resources[i] = &types.Any{
+		resources[i] = &any.Any{
 			TypeUrl: typeURL,
 			Value:   data,
 		}

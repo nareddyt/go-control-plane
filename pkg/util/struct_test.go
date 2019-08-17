@@ -18,7 +18,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gogo/protobuf/types"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 
 	v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	"github.com/envoyproxy/go-control-plane/envoy/api/v2/core"
@@ -34,11 +34,11 @@ func TestConversion(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error %v", err)
 	}
-	pbst := map[string]*types.Value{
-		"version_info": &types.Value{Kind: &types.Value_StringValue{StringValue: "test"}},
-		"node": &types.Value{Kind: &types.Value_StructValue{StructValue: &types.Struct{
-			Fields: map[string]*types.Value{
-				"id": &types.Value{Kind: &types.Value_StringValue{StringValue: "proxy"}},
+	pbst := map[string]*structpb.Value{
+		"version_info": {Kind: &structpb.Value_StringValue{StringValue: "test"}},
+		"node": {Kind: &structpb.Value_StructValue{StructValue: &structpb.Struct{
+			Fields: map[string]*structpb.Value{
+				"id": {Kind: &structpb.Value_StringValue{StringValue: "proxy"}},
 			},
 		}}},
 	}

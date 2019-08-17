@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on FilterConfig with the rules defined in
@@ -48,17 +48,12 @@ func (m *FilterConfig) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetDnsCacheConfig()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return FilterConfigValidationError{
-					field:  "DnsCacheConfig",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetDnsCacheConfig()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return FilterConfigValidationError{
+				field:  "DnsCacheConfig",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}

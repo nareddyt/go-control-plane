@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on ScopedRouteConfiguration with the rules
@@ -62,17 +62,12 @@ func (m *ScopedRouteConfiguration) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetKey()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return ScopedRouteConfigurationValidationError{
-					field:  "Key",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ScopedRouteConfigurationValidationError{
+				field:  "Key",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -154,17 +149,12 @@ func (m *ScopedRouteConfiguration_Key) Validate() error {
 	for idx, item := range m.GetFragments() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ScopedRouteConfiguration_KeyValidationError{
-						field:  fmt.Sprintf("Fragments[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ScopedRouteConfiguration_KeyValidationError{
+					field:  fmt.Sprintf("Fragments[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}

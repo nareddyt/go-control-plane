@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/types"
+	"github.com/golang/protobuf/ptypes"
 )
 
 // ensure the imports are used
@@ -30,7 +30,7 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = types.DynamicAny{}
+	_ = ptypes.DynamicAny{}
 )
 
 // Validate checks the field values on ClusterLoadAssignment with the rules
@@ -51,17 +51,12 @@ func (m *ClusterLoadAssignment) Validate() error {
 	for idx, item := range m.GetEndpoints() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ClusterLoadAssignmentValidationError{
-						field:  fmt.Sprintf("Endpoints[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ClusterLoadAssignmentValidationError{
+					field:  fmt.Sprintf("Endpoints[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -70,17 +65,12 @@ func (m *ClusterLoadAssignment) Validate() error {
 
 	// no validation rules for NamedEndpoints
 
-	{
-		tmp := m.GetPolicy()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return ClusterLoadAssignmentValidationError{
-					field:  "Policy",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetPolicy()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ClusterLoadAssignmentValidationError{
+				field:  "Policy",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
@@ -155,17 +145,12 @@ func (m *ClusterLoadAssignment_Policy) Validate() error {
 	for idx, item := range m.GetDropOverloads() {
 		_, _ = idx, item
 
-		{
-			tmp := item
-
-			if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-				if err := v.Validate(); err != nil {
-					return ClusterLoadAssignment_PolicyValidationError{
-						field:  fmt.Sprintf("DropOverloads[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ClusterLoadAssignment_PolicyValidationError{
+					field:  fmt.Sprintf("DropOverloads[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
 				}
 			}
 		}
@@ -184,7 +169,7 @@ func (m *ClusterLoadAssignment_Policy) Validate() error {
 	}
 
 	if d := m.GetEndpointStaleAfter(); d != nil {
-		dur, err := types.DurationFromProto(d)
+		dur, err := ptypes.Duration(d)
 		if err != nil {
 			return ClusterLoadAssignment_PolicyValidationError{
 				field:  "EndpointStaleAfter",
@@ -279,17 +264,12 @@ func (m *ClusterLoadAssignment_Policy_DropOverload) Validate() error {
 		}
 	}
 
-	{
-		tmp := m.GetDropPercentage()
-
-		if v, ok := interface{}(tmp).(interface{ Validate() error }); ok {
-
-			if err := v.Validate(); err != nil {
-				return ClusterLoadAssignment_Policy_DropOverloadValidationError{
-					field:  "DropPercentage",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
+	if v, ok := interface{}(m.GetDropPercentage()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ClusterLoadAssignment_Policy_DropOverloadValidationError{
+				field:  "DropPercentage",
+				reason: "embedded message failed validation",
+				cause:  err,
 			}
 		}
 	}
